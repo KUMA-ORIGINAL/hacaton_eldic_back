@@ -1,4 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.db import models
+
+
+User = get_user_model()
 
 
 class Assistant(models.Model):
@@ -12,6 +16,13 @@ class Assistant(models.Model):
         ("gpt-4o", "GPT-4o"),
         ("gpt-4", "GPT-4"),
     ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="assistants",
+        verbose_name="Пользователь"
+    )
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)

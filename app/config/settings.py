@@ -192,6 +192,15 @@ MQTT_TOPIC = "/LLZN/2411280001"
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "asanovkurmanbek342@gmail.com"
+EMAIL_HOST_PASSWORD = "nhxf mlwz wwok wncn"  # пароль приложения
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 PHONENUMBER_DEFAULT_REGION = 'KG'
 
 LANGUAGES = (
@@ -208,7 +217,7 @@ MODELTRANSLATION_FALLBACK_LANGUAGES = {
 }
 MODELTRANSLATION_AUTO_POPULATE = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CSRF_TRUSTED_ORIGINS = [f"https://{DOMAIN}", f"http://{DOMAIN}"]
 

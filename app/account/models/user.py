@@ -1,65 +1,50 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator
 from django.core.validators import EmailValidator
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UserManager(BaseUserManager):
-    """Custom user manager where phone_number is the unique identifier for authentication."""
+    """Custom user manager where email is the unique identifier for authentication."""
 
-    def _create_user(self, phone_number, password=None, **extra_fields):
-        """Handles the common logic for user creation."""
-        if not phone_number:
-            raise ValueError(_("The Phone number field is required"))
-
-        user = self.model(phone_number=phone_number, **extra_fields)
+    def _create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError(_("The Email field is required"))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, phone_number, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(phone_number, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, phone_number, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("Superuser must have is_staff=True."))
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("Superuser must have is_superuser=True."))
-        return self._create_user(phone_number, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
-    """Custom user model with email for authentication instead of username."""
-
-    username = None  # Remove username field as it's no longer needed
+    username = None  # убираем username
     email = models.EmailField(
         _("email address"),
-        validators=[EmailValidator(_("Enter a valid email address."))],
-        blank=True,
-        null=True,
+        unique=True,
+        validators=[EmailValidator(_("Enter a valid email address."))]
     )
-    phone_number = PhoneNumberField(_("Номер телефона"), blank=False, unique=True,
-                                    help_text='Введите в формате 0 или 996')
-    full_name = models.CharField('ФИО', max_length=100, blank=False)
-    tg_chat_id = models.BigIntegerField('chat id в телеграмме',unique=True, blank=True, null=True)
+    full_name = models.CharField(_("ФИО"), max_length=100)
 
-    USERNAME_FIELD = "phone_number"  # Use email as the unique identifier
-    REQUIRED_FIELDS = ['full_name']  # Required fields when creating a superuser
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ['full_name']
 
     objects = UserManager()
 
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
-        ordering = ['-date_joined']
 
     def __str__(self):
-        return f"{self.phone_number} - {self.full_name}"
+        return f"{self.email} - {self.full_name}"

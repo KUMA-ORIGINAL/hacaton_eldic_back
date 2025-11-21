@@ -27,7 +27,7 @@ class UserAdmin(UserAdmin, BaseModelAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
-                    "phone_number",
+                    "email",
                     "password1",
                     "password2",
                 ),
@@ -39,5 +39,5 @@ class UserAdmin(UserAdmin, BaseModelAdmin):
     autocomplete_fields = ("groups",)
 
     ordering = ('-date_joined',)
-    list_display = ('id', 'phone_number', 'email', 'full_name', 'is_active', )
-    list_display_links = ('id', 'phone_number')
+    list_display = ('id', 'email', 'full_name', 'is_active', 'detail_link')
+    list_display_links = ('id', 'email')
