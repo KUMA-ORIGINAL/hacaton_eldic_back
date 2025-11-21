@@ -12,6 +12,10 @@ mqtt_client.connect(settings.MQTT_BROKER)
 
 @api_view(['POST'])
 def print_message(request):
-    payload = json.dumps(request.data)
-    mqtt_client.publish(settings.MQTT_TOPIC, payload)
+    # Преобразуем данные в JSON строку с UTF-8
+    payload = json.dumps(request.data, ensure_ascii=False)
+
+    # Отправка через MQTT с кодировкой utf-8
+    mqtt_client.publish(settings.MQTT_TOPIC, payload.encode('utf-8'))
+
     return Response({"status": "ok"})
