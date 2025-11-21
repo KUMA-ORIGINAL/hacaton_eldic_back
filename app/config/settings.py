@@ -390,11 +390,11 @@ UNFOLD = {
                         "icon": "robot",
                         "link": reverse_lazy("admin:rag_assistant_changelist"),
                     },
-                    # {
-                    #     "title": _("Чаты"),
-                    #     "icon": "chat",
-                    #     "link": reverse_lazy("admin:rag_chat_changelist"),
-                    # },
+                    {
+                        "title": _("Чаты"),
+                        "icon": "chat",
+                        "link": reverse_lazy("admin:rag_chat_changelist"),
+                    },
                     # {
                     #     "title": _("Сообщения"),
                     #     "icon": "message",
