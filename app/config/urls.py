@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/health/', views.health_check, name='health_check'),
 
     path('api/', include('account.api_urls')),
+    path('api/', include('rag.urls')),
 ]
 
 if settings.DEBUG:

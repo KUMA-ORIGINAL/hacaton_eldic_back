@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "import_export",
 
     'account',
+    'rag',
 ]
 
 MIDDLEWARE = [
@@ -380,6 +381,32 @@ UNFOLD = {
         "show_search": False,
         "show_all_applications": False,
         "navigation": [
+            {
+                "title": _("RAG Ассистенты"),
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Ассистенты"),
+                        "icon": "robot",
+                        "link": reverse_lazy("admin:rag_assistant_changelist"),
+                    },
+                    # {
+                    #     "title": _("Чаты"),
+                    #     "icon": "chat",
+                    #     "link": reverse_lazy("admin:rag_chat_changelist"),
+                    # },
+                    # {
+                    #     "title": _("Сообщения"),
+                    #     "icon": "message",
+                    #     "link": reverse_lazy("admin:rag_message_changelist"),
+                    # },
+                    # {
+                    #     "title": _("Документы"),
+                    #     "icon": "folder",
+                    #     "link": reverse_lazy("admin:rag_document_changelist"),
+                    # },
+                ],
+            },
             {
                 "title": _("Пользователи и Доступ"),
                 "collapsible": False,
