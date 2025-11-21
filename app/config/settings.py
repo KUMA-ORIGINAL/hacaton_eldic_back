@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'axes',
     "import_export",
 
+    'common',
     'account',
     'rag',
 ]
