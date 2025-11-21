@@ -83,6 +83,12 @@ services:
     depends_on:
       - backend
 
+  telegram-bot:
+    build: telegram-bot
+    container_name: eldik_bot
+    env_file: .env
+    restart: unless-stopped
+
 volumes:
   database-storage:
   redis_data:

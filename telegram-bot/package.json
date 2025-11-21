@@ -1,0 +1,13 @@
+{
+  "name": "eldik-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot Eldik Kassa",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "telegraf": "^4.15.2"
+  }
+}
