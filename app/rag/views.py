@@ -7,15 +7,19 @@ from .serializers import AssistantSerializer, ChatListSerializer, ChatCreateSeri
 class AssistantViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.CreateModelMixin,
 ):
     queryset = Assistant.objects.all().order_by("-created_at")
     serializer_class = AssistantSerializer
 
 
-class ChatViewSet(viewsets.GenericViewSet,
-                  mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  mixins.DestroyModelMixin):
+class ChatViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin):
     queryset = Chat.objects.all().order_by("-created_at").select_related('assistant')
 
     def get_serializer_class(self):
