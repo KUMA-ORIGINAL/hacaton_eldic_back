@@ -3,7 +3,6 @@ import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
 
-from rag.models import Chat, Message
 from rag.services import get_assistant_response
 
 logger = logging.getLogger(__name__)
@@ -11,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
+        from rag.models import Chat, Message
+
         self.chat_id = self.scope['url_route']['kwargs']['chat_id']
         self.room_group_name = f"chat_{self.chat_id}"
 
@@ -36,6 +37,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         logger.info(f"Chat {self.chat_id} disconnected with code {close_code}")
 
     async def receive(self, text_data=None):
+        from rag.models import Message
         try:
             data = json.loads(text_data)
             user_text = data.get("text")
@@ -63,6 +65,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             await self.send_json({"error": "Ошибка при отправке сообщения"})
 
     async def chat_message(self, event):
+        from rag.models import Message
         """
         Сюда попадаем когда нужно отправить запрос ассистенту
         """
