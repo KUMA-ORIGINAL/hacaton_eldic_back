@@ -5,7 +5,7 @@ from .models import Assistant, Chat
 class AssistantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assistant
-        fields = ('id', 'name', 'description', 'photo')
+        fields = ('id', 'name', 'description', 'photo', 'system_prompt', 'llm_model')
 
 
 class ChatListSerializer(serializers.ModelSerializer):
