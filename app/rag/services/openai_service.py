@@ -124,42 +124,47 @@ logger = logging.getLogger(__name__)
 
 async def get_assistant_response(
     user_message: str,
-    chat: Chat,
+    chat: "Chat",
     files: Optional[List[dict]] = None,
     images: Optional[List[dict]] = None
 ) -> AsyncGenerator[str, None]:
     """
     Отправляет сообщение в чат и возвращает потоковые кусочки ответа.
+    Использует модель и system_prompt ассистента, связанного с чатом.
     """
-
     try:
-        # Формируем content
-        content = [{"type": "text", "text": user_message}]
+        assistant = chat.assistant
+        model_name = getattr(assistant, "llm_model", "gpt-4o")  # fallback
+        system_prompt = getattr(assistant, "system_prompt", "Ты — AI ассистент.")  # fallback
 
+        # Формируем content пользователя
+        user_content = [{"type": "text", "text": user_message}]
         if images:
             for image in images:
-                content.append({
+                user_content.append({
                     "type": "image_url",
                     "image_url": {"url": f"data:image/jpeg;base64,{image['base64']}"}
                 })
 
-        # Формируем messages
-        messages = [{"role": "user", "content": content if images else user_message}]
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content if images else user_message}
+        ]
 
-        logger.info(f"📤 Sending message to OpenAI")
+        logger.info(f"📤 Sending message to OpenAI, model={model_name}")
 
-        # Запускаем потоковое получение ответа
+        # Потоковое получение ответа
         stream = await client.chat.completions.create(
-            model="gpt-4o",
+            model=model_name,
             messages=messages,
             stream=True
         )
 
         async for chunk in stream:
-            if chunk.choices[0].delta.content:
-                text_chunk = chunk.choices[0].delta.content
-                logger.info(f"💬 DELTA: {text_chunk}")
-                yield text_chunk
+            delta_content = chunk.choices[0].delta.content
+            if delta_content:
+                logger.info(f"💬 DELTA: {delta_content}")
+                yield delta_content
 
     except Exception:
         logger.exception("❌ Ошибка при запросе к OpenAI API")
