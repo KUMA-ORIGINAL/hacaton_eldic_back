@@ -9,13 +9,10 @@ class Assistant(BaseModel):
     photo = models.ImageField(blank=True, null=True)
 
     llm_model = models.CharField(max_length=255, default="gpt-4o-mini")
-    embed_model = models.CharField(max_length=255, default="text-embedding-3-small")
-
-    top_k = models.IntegerField(default=5)
-    chunk_size = models.IntegerField(default=800)
-    chunk_overlap = models.IntegerField(default=200)
 
     system_prompt = models.TextField(default="Ты — AI ассистент.")
+
+    openai_id = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
