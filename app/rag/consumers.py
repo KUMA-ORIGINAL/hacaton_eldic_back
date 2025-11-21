@@ -3,8 +3,6 @@ import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
 
-from rag.services import get_assistant_response
-
 logger = logging.getLogger(__name__)
 
 
@@ -65,6 +63,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             await self.send_json({"error": "Ошибка при отправке сообщения"})
 
     async def chat_message(self, event):
+        from rag.services import get_assistant_response
         from rag.models import Message
         """
         Сюда попадаем когда нужно отправить запрос ассистенту
