@@ -1,9 +1,7 @@
 from django.db import models
 
-from common.base_model import BaseModel
 
-
-class Assistant(BaseModel):
+class Assistant(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     photo = models.ImageField(blank=True, null=True)
@@ -13,6 +11,9 @@ class Assistant(BaseModel):
     system_prompt = models.TextField(default="Ты — AI ассистент.")
 
     openai_id = models.CharField(max_length=255, blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата последнего обновления")
 
     def __str__(self):
         return self.name
