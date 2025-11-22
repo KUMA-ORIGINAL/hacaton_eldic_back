@@ -7,8 +7,6 @@ User = get_user_model()
 
 class Assistant(models.Model):
     MODEL_CHOICES = [
-        ("gpt-5", "gpt-5"),
-        ("gpt-5-nano", "gpt-5-nano"),
         ("gpt-4.1", "gpt-4.1"),
         ("gpt-4.1-mini", "gpt-4.1-mini"),
         ("gpt-4.1-nano", "gpt-4.1-nano"),
@@ -30,7 +28,7 @@ class Assistant(models.Model):
     llm_model = models.CharField(
         max_length=50,
         choices=MODEL_CHOICES,
-        default="gpt-5-mini"
+        default="gpt-4.1-mini"
     )
 
     system_prompt = models.TextField(default="Ты — AI ассистент.")
