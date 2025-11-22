@@ -47,7 +47,6 @@ class ChatViewSet(
 
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
 def llm_models_list(request):
     """
     Возвращает список доступных моделей LLM для выбора.
