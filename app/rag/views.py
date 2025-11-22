@@ -35,7 +35,7 @@ class ChatViewSet(
 
     def get_queryset(self):
         # Только чаты пользователя
-        return Chat.objects.filter(user=self.request.user).order_by("-created_at").select_related('assistant')
+        return Chat.objects.filter(user=self.request.user).order_by("-created_at").select_related('assistant').prefetch_related("messages")
 
     def get_serializer_class(self):
         if self.action == 'list':

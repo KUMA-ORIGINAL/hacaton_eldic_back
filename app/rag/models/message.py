@@ -25,3 +25,6 @@ class Message(BaseModel):
 
     def __str__(self):
         return f"{self.sender}: {self.content[:30]}"
+
+    class Meta:
+        ordering = ('-created_at',)
