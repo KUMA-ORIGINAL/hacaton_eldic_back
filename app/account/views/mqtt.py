@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # MQTT клиент
-mqtt_client = mqtt.Client()
+mqtt_client = mqtt.Client(clean_session=True,)
 mqtt_client.username_pw_set(settings.MQTT_USER, settings.MQTT_PASSWORD)
 mqtt_client.connect(settings.MQTT_BROKER)
 
