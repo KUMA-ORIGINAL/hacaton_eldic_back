@@ -407,16 +407,11 @@ UNFOLD = {
                         "icon": "chat",
                         "link": reverse_lazy("admin:rag_chat_changelist"),
                     },
-                    # {
-                    #     "title": _("Сообщения"),
-                    #     "icon": "message",
-                    #     "link": reverse_lazy("admin:rag_message_changelist"),
-                    # },
-                    # {
-                    #     "title": _("Документы"),
-                    #     "icon": "folder",
-                    #     "link": reverse_lazy("admin:rag_document_changelist"),
-                    # },
+                    {
+                        "title": _("Сообщения"),
+                        "icon": "message",
+                        "link": reverse_lazy("admin:rag_message_changelist"),
+                    },
                 ],
             },
             {
