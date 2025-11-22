@@ -16,7 +16,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 class ChatListSerializer(serializers.ModelSerializer):
     assistant = AssistantSerializer(read_only=True)
-    messages = serializers.SerializerMethodField()
+    messages = MessageSerializer(read_only=True, many=True)
 
     class Meta:
         model = Chat
